@@ -1,17 +1,22 @@
-package com.br.natanfc.filmesflix.viewmodel
+package com.br.natanfc.filmesflix.framework.api.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.br.natanfc.filmesflix.api.MovieRestApiTask
-import com.br.natanfc.filmesflix.model.Movie
-import com.br.natanfc.filmesflix.repository.MovieRepository
+import com.br.natanfc.filmesflix.framework.api.MovieRestApiTask
+import com.br.natanfc.filmesflix.data.MovieRepository
+import com.br.natanfc.filmesflix.domain.Movie
+import com.br.natanfc.filmesflix.implementations.MovieDataSourceImplementation
+import com.br.natanfc.filmesflix.usecase.MovieListUseCase
 
 class MoveListViewModel : ViewModel() {
 
     private  val movieRestApiTask = MovieRestApiTask()
-    private val movieRepository = MovieRepository(movieRestApiTask)
+    private val movieDataSource = MovieDataSourceImplementation(movieRestApiTask)
+    private val movieRepository = MovieRepository(movieDataSource)
+    private val movieListUseCase = MovieListUseCase(movieRepository)
+
 
     companion object{
         const val TAG = "MovieRepository"
@@ -31,7 +36,7 @@ class MoveListViewModel : ViewModel() {
     private fun getAllMovies() {
         Thread{
             try {
-                _movieList.postValue(movieRepository.getAllMovies())
+                _movieList.postValue(movieListUseCase.invoke())
             }catch (exception:Exception){
                 Log.d(TAG, exception.message.toString())
             }
