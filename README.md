@@ -18,4 +18,5 @@ Este projeto consiste em exibir uma lista de filmes, oriundas de uma API.
   <img src="/filmes_flix.png" width="300" />
 </p>
 
->Finalizado com sucesso
+>Finalizado com sucesso - Código que foi feito o push https://github.com/natanfelipe/FilmesFlix/tree/aula_1_codificacao
+
